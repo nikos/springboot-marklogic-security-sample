@@ -1,0 +1,37 @@
+# Backup files
+*~
+
+# Downloaded dependencies via bower
+src/main/resources/public/bower
+
+# Third-party dependencies (legal constraints)
+src/main/resources/public/visualization-widgets
+
+# Configuration, copy sample file instead
+src/*/resources/application.yml
+
+# IntelliJ IDEA project files
+.idea/
+*.iws
+*.ipr
+*.iml
+
+# Eclipse project files
+.settings
+.classpath
+.project
+
+# Java compile artefacts
+*.class
+build/
+out/
+target/
+.gradle/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*

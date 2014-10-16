@@ -1,0 +1,20 @@
+<options xmlns='http://marklogic.com/appservices/search'>
+    <values name="year">
+        <range type="xs:gYear">
+            <element ns="http://marklogic.com/xdmp/json/basic" name="year"/>
+        </range>
+    </values>
+    <values name="categories">
+        <range type="xs:string">
+            <element ns="http://marklogic.com/xdmp/json/basic" name="categories"/>
+        </range>
+    </values>
+    <values name="category">
+        <range type="xs:string">
+            <path-index>//categories/category</path-index>
+        </range>
+        <values-option>descending</values-option>
+        <values-option>frequency-order</values-option>
+        <values-option>limit=10</values-option>
+    </values>
+</options>
