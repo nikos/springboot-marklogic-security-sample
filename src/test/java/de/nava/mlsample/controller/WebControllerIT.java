@@ -1,6 +1,6 @@
-package de.nava.mlsample.web;
+package de.nava.mlsample.controller;
 
-import de.nava.mlsample.MarkLogicSampleApplication;
+import de.nava.mlsample.Application;
 import de.nava.mlsample.domain.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +26,11 @@ import static org.junit.Assert.assertThat;
  * @author Niko Schmuck
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = MarkLogicSampleApplication.class)
+@SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest("server.port=0")
 @DirtiesContext
-public class SampleWebControllerIT {
+public class WebControllerIT {
 
     @Value("${local.server.port}")
     private int port;

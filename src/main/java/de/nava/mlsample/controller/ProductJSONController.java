@@ -1,4 +1,4 @@
-package de.nava.mlsample.web;
+package de.nava.mlsample.controller;
 
 import com.marklogic.client.ResourceNotFoundException;
 import de.nava.mlsample.domain.Product;

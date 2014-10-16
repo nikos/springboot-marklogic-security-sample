@@ -1,4 +1,4 @@
-package de.nava.mlsample.web;
+package de.nava.mlsample.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

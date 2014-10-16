@@ -10,21 +10,13 @@ import com.sun.jersey.api.client.filter.HTTPDigestAuthFilter;
 import com.sun.jersey.api.client.filter.LoggingFilter;
 import de.nava.mlsample.domain.Product;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.xml.bind.JAXBException;
 
-/**
- * @author Niko Schmuck
- */
 @Configuration
-@EnableAutoConfiguration
-@ComponentScan
-public class MarkLogicSampleApplication {
+public class MarkLogicConfiguration {
 
     @Value("${marklogic.host}")
     private String host;
@@ -46,12 +38,11 @@ public class MarkLogicSampleApplication {
             DatabaseClientFactory.getHandleRegistry().register(
                     JAXBHandle.newFactory(Product.class)
             );
+            return DatabaseClientFactory.newClient(host, port, username, password,
+                    DatabaseClientFactory.Authentication.DIGEST);
         } catch (JAXBException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Unable to setup database client", e);
         }
-
-        return DatabaseClientFactory.newClient(host, port, username, password,
-                DatabaseClientFactory.Authentication.DIGEST);
     }
 
     @Bean
@@ -75,14 +66,6 @@ public class MarkLogicSampleApplication {
         client.addFilter(new LoggingFilter());
         client.addFilter(new HTTPDigestAuthFilter(username, password));
         return client;
-    }
-
-
-    /**
-     * The entrance point to the sample application, starts Spring Boot.
-     */
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(MarkLogicSampleApplication.class, args);
     }
 
 }

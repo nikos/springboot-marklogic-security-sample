@@ -1,4 +1,4 @@
-package de.nava.mlsample.web;
+package de.nava.mlsample.controller;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

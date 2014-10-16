@@ -5,7 +5,7 @@ import com.marklogic.client.io.Format;
 import com.marklogic.client.io.StringHandle;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.RawCombinedQueryDefinition;
-import de.nava.mlsample.MarkLogicSampleApplication;
+import de.nava.mlsample.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = MarkLogicSampleApplication.class)
+@SpringApplicationConfiguration(classes = Application.class)
 public class ProductRepositoryJSONIT {
 
     public static final String COLLECTION_REF = "/products.json";
