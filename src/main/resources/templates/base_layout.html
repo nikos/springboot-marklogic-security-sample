@@ -25,12 +25,12 @@
                 <a class="navbar-brand" href="#">MarkLogic SpringBoot Sample</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div ng-if="userLoggedIn" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">All Products</a></li>
                     <!-- li><a href="#">Link</a></li -->
                 </ul>
-                <form class="navbar-form navbar-right" role="search" ng-controller="ProductSearchController">
+                <form class="navbar-form navbar-right" role="search"><!-- ng-controller="ProductSearchController" -->
                     <div class="form-group">
                         <input type="text" ng-model="asyncProductMatches" placeholder="Search Product"
                                typeahead="productMatch for productMatch in findMatchingProducts($viewValue)"
@@ -48,8 +48,9 @@
     </div>
 </div>
 
-<script src="/public/bower/angular/angular.min.js"></script>
-<script src="/public/bower/angular-route/angular-route.min.js"></script>
+<!-- Le JavaScript -->
+<script src="/public/bower/angular/angular.js"></script>
+<script src="/public/bower/angular-route/angular-route.js"></script>
 <script src="/public/bower/angular-resource/angular-resource.min.js"></script>
 <script src="/public/bower/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="/public/bower/angular-toastr/dist/angular-toastr.min.js"></script>
@@ -60,4 +61,3 @@
 <script src="/public/js/services.js"></script>
 </body>
 </html>
-

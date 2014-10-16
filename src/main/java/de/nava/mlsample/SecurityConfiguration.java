@@ -31,7 +31,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // .disable()  // for testing purposes
         .and()
             .authorizeRequests()
-                .antMatchers("/**").hasRole("USER")
+                .antMatchers("/**").hasRole("USER");
+
+        // Since we use the client-side AngularJS login view, we do not have to cover redirection
+        /*
         .and()
             .formLogin()
                 .loginPage("/login")
@@ -44,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .permitAll();
+        */
     }
 
     @Override
@@ -66,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public/**")
         .and()
             .ignoring()
-                .antMatchers("/index**")
+                .antMatchers("/")
         ;
     }
 

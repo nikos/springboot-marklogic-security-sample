@@ -6,33 +6,35 @@ angular.module('MarkLogicSampleApp',
         'ngRoute',
         'toastr',
         'ui.bootstrap',
-        'ngTagsInput'
+        'ngTagsInput',
+        'MarkLogicSampleApp.services',
+        'MarkLogicSampleApp.controllers'
     ])
 
     .config(function($routeProvider) {
         $routeProvider
-            .when('/', {
-                templateUrl: '/views/list.html',
-                controller: 'ProductListController'
-            })
             .when('/login', {
-                templateUrl: '/views/login.html',
+                templateUrl: '/public/views/login.html',
                 controller: 'LoginController'
             })
+            .when('/products', {
+                templateUrl: '/public/views/list.html',
+                controller: 'ProductListController'
+            })
             .when('/search', {
-                templateUrl: '/views/search.html',
-                controller: 'ApplicationController'
+                templateUrl: '/public/views/search.html',
+                controller: 'ProductSearchController'
             })
             .when('/products/new', {
-                templateUrl: '/views/create.html',
+                templateUrl: '/public/views/create.html',
                 controller: 'ProductCreateController'
             })
             .when('/products/:sku', {
-                templateUrl: '/views/detail.html',
+                templateUrl: '/public/views/detail.html',
                 controller: 'ProductDetailController'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/login'
             });
     })
 

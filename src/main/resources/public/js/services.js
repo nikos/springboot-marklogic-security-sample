@@ -5,7 +5,7 @@
 angular.module('MarkLogicSampleApp.services', [])
 
     /* ---------------------------------------------------------------------- */
-    /* Provide access                                         */
+    /* Provide access to REST API from Spring-Boot application                */
     /* ---------------------------------------------------------------------- */
     .factory('MarkLogicService', function ($resource) {
         var service = $resource('/products/:sku.json', {id: '@sku'}, {

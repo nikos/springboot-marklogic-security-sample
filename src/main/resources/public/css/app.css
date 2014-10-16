@@ -3,6 +3,10 @@ body {
 }
 
 .navbar-default {
-    background: rgba(138, 209, 255, 0.20) linear-gradient(#434648, #2a2c2e);
+    background: rgba(138, 209, 255, 0.20) linear-gradient(#7db9e8, #1e5799);
     border-color: #e7e7e7;
+}
+
+.navbar-default .navbar-brand {
+    color: #eee;
 }

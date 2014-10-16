@@ -3,7 +3,7 @@
 /* ~~ Controllers ~~ */
 
 /** Helper */
-var ModalInstanceCtrl = function($scope, $modalInstance, product) {
+var handleModalDialog = function($scope, $modalInstance, product) {
     $scope.product = product;
     $scope.ok = function () {
         $modalInstance.close(product);
@@ -15,13 +15,14 @@ var ModalInstanceCtrl = function($scope, $modalInstance, product) {
 
 angular.module('MarkLogicSampleApp.controllers', [])
 
-    .controller("LoginController", function($scope, $location, AuthenticationService) {
-        $scope.credentials = { email: "", password: "" };
+    .controller("LoginController", function($scope, $log, $location/*, AuthenticationService*/) {
+        $scope.credentials = {user: "", password: ""};
 
         $scope.login = function() {
-            AuthenticationService.login($scope.credentials).success(function() {
-                $location.path('/home');
-            });
+            $log.info("Log in", $scope.credentials);
+            //AuthenticationService.login($scope.credentials).success(function() {
+            //    $location.path('/home');
+            //});
         };
     })
 
@@ -34,11 +35,9 @@ angular.module('MarkLogicSampleApp.controllers', [])
         $scope.currentPage = 1;  // FIXME
 
         $scope.confirmDeletion = function (product) {
-
-
             var modalInstance = $modal.open({
                 templateUrl: 'confirmDeletionModal.html',
-                controller: ModalInstanceCtrl,
+                controller: handleModalDialog,
                 size: 'sm',
                 resolve: {
                     product: function () {
@@ -90,13 +89,10 @@ angular.module('MarkLogicSampleApp.controllers', [])
     /* Controller for Creating a single product                               */
     /* ---------------------------------------------------------------------- */
     .controller('ProductCreateController', function($scope, $location, MarkLogicService, toastr) {
-
-        $scope.product = new MarkLogicService();
-
         $scope.save = function () {
-            $scope.product.$addProduct(function (product, headers) {
+            MarkLogicService.addProduct(function (product, headers) {
                 toastr.success("Created new product");
-                $location.path('/');
+                $location.path('/products');
             });
         };
     })

@@ -1,3 +1,7 @@
+default:
+  username: spring
+  password: boot
+
 # Adjust to your environment and copy to application.yml
 marklogic:
   host: localhost
