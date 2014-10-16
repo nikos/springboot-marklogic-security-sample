@@ -4,6 +4,7 @@ angular.module('MarkLogicSampleApp',
     // Declare app level module dependencies
     [   'ngResource',
         'ngRoute',
+        'ngSanitize',
         'toastr',
         'ui.bootstrap',
         'ngTagsInput',
@@ -11,6 +12,9 @@ angular.module('MarkLogicSampleApp',
         'MarkLogicSampleApp.controllers'
     ])
 
+    /* ---------------------------------------------------------------------- */
+    /* Application Routes                                                     */
+    /* ---------------------------------------------------------------------- */
     .config(function($routeProvider) {
         $routeProvider
             .when('/login', {
@@ -36,6 +40,21 @@ angular.module('MarkLogicSampleApp',
             .otherwise({
                 redirectTo: '/login'
             });
+    })
+
+    /* ---------------------------------------------------------------------- */
+    /* Intercept unauthenticated routes                                       */
+    /* ---------------------------------------------------------------------- */
+    .run(function($rootScope, $location, AuthenticationService, FlashService) {
+        var routesThatRequireAuth = ['/products'];
+
+        $rootScope.$on('$routeChangeStart', function(event, next, current) {
+            // TODO: leading underscore??
+            if((routesThatRequireAuth).contains($location.path()) && !AuthenticationService.isLoggedIn()) {
+                $location.path('/login');
+                FlashService.show("Please log in to continue.");
+            }
+        });
     })
 
 ;

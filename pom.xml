@@ -5,7 +5,7 @@
 
     <groupId>de.nava</groupId>
     <artifactId>springboot-marklogic-security-sample</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <name>MarkLogic Sample with Spring Boot</name>
     <description>Sample application integrating MarkLogic 7 Java Client API with Spring Boot (incl. basic security)</description>
     <url>http://github.com/nikos/springboot-marklogic-security-sample/</url>
