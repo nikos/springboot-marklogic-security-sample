@@ -1,4 +1,4 @@
-# SpringBoot MarkLogic Security Sample [![Build Status](https://travis-ci.org/nikos/springboot-marklogic-security-sample.svg?branch=master)](http://travis-ci.org/nikos/springboot-marklogic-sample)
+# SpringBoot MarkLogic Security Sample [![Build Status](https://travis-ci.org/nikos/springboot-marklogic-security-sample.svg?branch=master)](http://travis-ci.org/nikos/springboot-marklogic-security-sample)
 
 ## Overview
 
