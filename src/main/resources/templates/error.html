@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error page</title>
+</head>
 <body>
-Something went wrong: ${status} ${error}
-</body>
+    <h1 th:text="${status}">java.lang.NullPointerException</h1>
+    <h2 th:text="${reason}">http://example.org</h2>
 
+    <pre>
+    status:    <span th:text="${status}"></span>
+    error:     <span th:text="${error}"></span>
+    message:   <span th:text="${message}"></span>
+    exception: <span th:text="${exception}"></span>
+    trace:     <span th:text="${trace}"></span>
+    </pre>
+
+</body>
 </html>

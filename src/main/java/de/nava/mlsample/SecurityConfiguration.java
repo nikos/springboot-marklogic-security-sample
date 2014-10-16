@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -20,9 +21,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // Sync HTTP Header names to AngularJs name (default Spring: X-CSRF-TOKEN)
+        HttpSessionCsrfTokenRepository tokenRepository = new HttpSessionCsrfTokenRepository();
+        tokenRepository.setHeaderName("X-XSRF-TOKEN");
+        // ~~
         http
             .csrf()
-                .disable()
+                .csrfTokenRepository(tokenRepository)
+                // .disable()  // for testing purposes
+        .and()
             .authorizeRequests()
                 .antMatchers("/**").hasRole("USER")
         .and()
@@ -44,18 +51,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
             .inMemoryAuthentication()
                 .withUser(defaultUsername)
-                .password(defaultPassword)
-                .roles("USER");
+                    .password(defaultPassword)
+                    .roles("USER")
+            .and()
+                .withUser("admin")
+                    .password("admin")
+                    .roles("ADMIN", "USER");
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
             .ignoring()
-                .antMatchers("/favicon.ico")
+                .antMatchers("/public/**")
         .and()
             .ignoring()
-                .antMatchers("/public/**");
+                .antMatchers("/index**")
+        ;
     }
 
 }

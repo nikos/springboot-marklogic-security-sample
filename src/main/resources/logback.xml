@@ -2,4 +2,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/basic.xml" />
     <logger name="com.marklogic.client" level="INFO"/>
+    <!-- logger name="org.thymeleaf" level="DEBUG"/ -->
+    <logger name="org.springframework.security.web" level="DEBUG"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
 </configuration>
