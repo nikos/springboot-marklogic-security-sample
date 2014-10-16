@@ -1,3 +1,7 @@
+default:
+  username: spring
+  password: boot
+
 marklogic:
   host: localhost
   port: 8005
@@ -5,6 +9,11 @@ marklogic:
   password: admin
 
 spring:
-  freemarker:
-    # Reload FreeMarker templates without restarting the container
+  thymeleaf:
+    # Allow Thymeleaf templates to be reloaded at dev time
     cache: false
+
+server:
+  tomcat:
+    access_log_enabled: true
+    basedir: target/tomcat

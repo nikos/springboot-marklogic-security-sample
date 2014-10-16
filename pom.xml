@@ -30,8 +30,8 @@
         <!-- Support for full-stack web development, including Tomcat and spring-webmvc. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <!-- Support for the FreeMarker templating engine. -->
-            <artifactId>spring-boot-starter-freemarker</artifactId>
+            <!-- Support for the Thymeleaf templating engine. -->
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <!-- which inherits from "spring-boot-starter-web" -->
         </dependency>
         <!-- Adds production ready features such as metrics and monitoring. -->
@@ -78,6 +78,18 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Support for Hot Reloading -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.0.RELEASE</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

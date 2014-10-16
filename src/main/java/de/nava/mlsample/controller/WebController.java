@@ -15,6 +15,11 @@ public class WebController {
         return "index";
     }
 
+    @RequestMapping("/login")
+    public String login(Map<String, Object> model) {
+        return "login";
+    }
+
     @RequestMapping("/viztest")
     public String viztest(Map<String, Object> model) {
         return "viztest";
