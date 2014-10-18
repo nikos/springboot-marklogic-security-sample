@@ -15,16 +15,24 @@ var handleModalDialog = function($scope, $modalInstance, product) {
 
 angular.module('MarkLogicSampleApp.controllers', [])
 
-    .controller("LoginController", function($scope, $log, $location/*, AuthenticationService*/) {
-        $scope.credentials = {user: "", password: ""};
+    .controller("LoginController", function($scope, $log, $location, AuthenticationService) {
+        $scope.credentials = {username: "", password: ""};
 
         $scope.login = function() {
             $log.info("Log in", $scope.credentials);
-            //AuthenticationService.login($scope.credentials).success(function() {
-            //    $location.path('/home');
-            //});
+            AuthenticationService.login($scope.credentials).success(function() {
+                $location.path('/products');
+            });
         };
     })
+
+    /* TODO in which controller to integrate the logout call?
+     $scope.logout = function() {
+        AuthenticationService.logout().success(function() {
+           $location.path('/login');
+        });
+     };
+     */
 
     /* ---------------------------------------------------------------------- */
     /* Controller for Listing Products                                        */

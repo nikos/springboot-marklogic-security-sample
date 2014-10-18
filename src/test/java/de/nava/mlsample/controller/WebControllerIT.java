@@ -42,7 +42,7 @@ public class WebControllerIT {
     @Test
     public void thatFreeMarkerIndexTemplateResponds() throws Exception {
         ResponseEntity<String> entity = template.getForEntity(getBaseUrl(), String.class);
-        assertEquals(HttpStatus.UNAUTHORIZED, entity.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN, entity.getStatusCode());
         // TODO: Re-enable with proper credentials
         //assertThat(entity.getBody(), containsString("Sample web application: MarkLogic with SpringBoot"));
     }
@@ -58,7 +58,7 @@ public class WebControllerIT {
                 requestEntity, String.class);
 
         // TODO: Re-enable with proper credentials
-        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
         //assertThat(responseEntity.getBody(), containsString("Something went wrong: 404 Not Found"));
     }
 

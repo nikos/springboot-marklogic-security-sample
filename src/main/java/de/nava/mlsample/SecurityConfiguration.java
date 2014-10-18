@@ -1,7 +1,9 @@
 package de.nava.mlsample;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,10 +16,10 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${default.username}")
-    String defaultUsername;
+    String defaultUsername; // TODO: remove
 
     @Value("${default.password}")
-    String defaultPassword;
+    String defaultPassword; // TODO: remove
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf()
                 .csrfTokenRepository(tokenRepository)
                 // .disable()  // for testing purposes
+        .and()
+            .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
         .and()
             .authorizeRequests()
                 .antMatchers("/**").hasRole("USER");
@@ -52,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Alternative is to set own customized userDetailsService
         auth
             .inMemoryAuthentication()
                 .withUser(defaultUsername)
@@ -63,14 +69,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .roles("ADMIN", "USER");
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    /**
+     * Which routes should be ignored on dealing with authentication at all.
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
             .ignoring()
-                .antMatchers("/public/**")
+                .antMatchers("/public/**")   // all assets
         .and()
             .ignoring()
-                .antMatchers("/")
+                .antMatchers("/auth/login")  // login REST end-point
+        .and()
+            .ignoring()
+                .antMatchers("/")   // the index page serves as root for the AngularJS app
         ;
     }
 

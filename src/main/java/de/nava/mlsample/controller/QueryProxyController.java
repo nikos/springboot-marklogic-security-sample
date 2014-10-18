@@ -18,7 +18,7 @@ import javax.ws.rs.core.MultivaluedMap;
 @RestController
 public class QueryProxyController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductJSONController.class);
+    private static final Logger logger = LoggerFactory.getLogger(QueryProxyController.class);
 
     @Autowired
     protected Client jerseyClient;

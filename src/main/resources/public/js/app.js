@@ -49,8 +49,7 @@ angular.module('MarkLogicSampleApp',
         var routesThatRequireAuth = ['/products'];
 
         $rootScope.$on('$routeChangeStart', function(event, next, current) {
-            // TODO: leading underscore??
-            if((routesThatRequireAuth).contains($location.path()) && !AuthenticationService.isLoggedIn()) {
+            if (routesThatRequireAuth.indexOf($location.path())>=0 && !AuthenticationService.isLoggedIn()) {
                 $location.path('/login');
                 FlashService.show("Please log in to continue.");
             }

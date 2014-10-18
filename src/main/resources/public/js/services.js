@@ -38,7 +38,7 @@ angular.module('MarkLogicSampleApp.services', [])
 
         var sanitizeCredentials = function(credentials) {
             return {
-                user: $sanitize(credentials.user),
+                username: $sanitize(credentials.username),
                 password: $sanitize(credentials.password),
                 csrf_token: CSRF_TOKEN
             };

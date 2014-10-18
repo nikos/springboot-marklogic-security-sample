@@ -1,7 +1,6 @@
 package de.nava.mlsample.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,8 +9,6 @@ import java.util.Map;
 
 @Controller
 public class WebController {
-
-    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @RequestMapping("/")
     public String index(Map<String, Object> model) {
@@ -22,6 +19,12 @@ public class WebController {
     @RequestMapping("/viztest")
     public String viztest(Map<String, Object> model) {
         return "viztest";
+    }
+
+    @Secured("ROLE_SUPERADMIN")
+    @RequestMapping("/admin")
+    public String admin(Map<String, Object> model) {
+        return "admin";
     }
 
 }
