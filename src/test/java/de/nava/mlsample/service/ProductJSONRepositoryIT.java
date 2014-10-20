@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-public class ProductRepositoryJSONIT {
+public class ProductJSONRepositoryIT {
 
     public static final String COLLECTION_REF = "/products.json";
 

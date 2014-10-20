@@ -29,9 +29,9 @@ import java.util.List;
  * @author Niko Schmuck
  */
 @Component
-public class ProductRepositoryJSON implements ProductRepository {
+public class ProductJSONRepository implements ProductRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductRepositoryJSON.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductJSONRepository.class);
 
     public static final String COLLECTION_REF = "/products.json";
     public static final int PAGE_SIZE = 10;
@@ -42,10 +42,13 @@ public class ProductRepositoryJSON implements ProductRepository {
     @Autowired
     protected JSONDocumentManager jsonDocumentManager;
 
+    private String optionsCountDocs;
     private String optionsPriceYear;
 
     @PostConstruct
     protected void init() throws IOException {
+        optionsCountDocs = FileCopyUtils.copyToString(
+                new FileReader("src/main/resources/queries/options-count-docs.xml"));
         optionsPriceYear = FileCopyUtils.copyToString(
                 new FileReader("src/main/resources/queries/options-price-year.xml"));
     }
@@ -89,11 +92,11 @@ public class ProductRepositoryJSON implements ProductRepository {
 
     @Override
     public Long count() {
-        StructuredQueryBuilder sb = queryManager.newStructuredQueryBuilder();
-        StructuredQueryDefinition criteria = sb.collection(COLLECTION_REF);
+        RawCombinedQueryDefinition queryDef =
+                queryManager.newRawCombinedQueryDefinitionAs(Format.XML, optionsPriceYear);
 
-        SearchHandle resultsHandle = new SearchHandle();
-        queryManager.search(criteria, resultsHandle);
+        SearchHandle resultsHandle = new SearchHandle();  // if debugging is enabled: .getReports()
+        queryManager.search(queryDef, resultsHandle);
         return resultsHandle.getTotalResults();
     }
 

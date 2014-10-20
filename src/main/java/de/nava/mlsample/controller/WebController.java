@@ -16,11 +16,6 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping("/viztest")
-    public String viztest(Map<String, Object> model) {
-        return "viztest";
-    }
-
     @Secured("ROLE_SUPERADMIN")
     @RequestMapping("/admin")
     public String admin(Map<String, Object> model) {

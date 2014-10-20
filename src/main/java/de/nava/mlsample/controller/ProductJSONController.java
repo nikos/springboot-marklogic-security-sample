@@ -3,7 +3,7 @@ package de.nava.mlsample.controller;
 import com.marklogic.client.ResourceNotFoundException;
 import de.nava.mlsample.domain.Product;
 import de.nava.mlsample.domain.ProductSearchResult;
-import de.nava.mlsample.service.ProductRepositoryJSON;
+import de.nava.mlsample.service.ProductJSONRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class ProductJSONController {
     private static final Logger logger = LoggerFactory.getLogger(ProductJSONController.class);
 
     @Autowired
-    protected ProductRepositoryJSON productRepositoryJSON;
+    protected ProductJSONRepository productJSONRepository;
 
     @RequestMapping(
             value = "/products",
@@ -29,7 +29,7 @@ public class ProductJSONController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> createProduct(@RequestBody Product product, UriComponentsBuilder builder) {
-        productRepositoryJSON.add(product);
+        productJSONRepository.add(product);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(
@@ -45,7 +45,7 @@ public class ProductJSONController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable("sku") Long sku) {
-        productRepositoryJSON.remove(sku);
+        productJSONRepository.remove(sku);
     }
 
     @RequestMapping(
@@ -54,7 +54,7 @@ public class ProductJSONController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Product readProduct(@PathVariable("sku") Long sku) {
-        return productRepositoryJSON.findBySku(sku);
+        return productJSONRepository.findBySku(sku);
     }
 
     @RequestMapping(
@@ -64,11 +64,11 @@ public class ProductJSONController {
     )
     public ProductSearchResult searchProducts(@RequestParam(required = false, value = "name") String name) {
         if (StringUtils.isEmpty(name)) {
-            logger.info("Lookup all {} products...", productRepositoryJSON.count());
-            return productRepositoryJSON.findAll();
+            logger.info("Lookup all {} products...", productJSONRepository.count());
+            return productJSONRepository.findAll();
         } else {
             logger.info("Lookup products by name: {}", name);
-            return productRepositoryJSON.findByName(name);
+            return productJSONRepository.findByName(name);
         }
     }
 

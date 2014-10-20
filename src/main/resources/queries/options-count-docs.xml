@@ -1,0 +1,8 @@
+<search:search xmlns:search='http://marklogic.com/appservices/search'>
+    <search:options>
+        <search:constraint name='collection'>
+            <search:collection prefix="/products."/>
+        </search:constraint>
+        <search:debug>true</search:debug>
+    </search:options>
+</search:search>

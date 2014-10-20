@@ -19,7 +19,7 @@ angular.module('MarkLogicSampleApp',
         $routeProvider
             .when('/login', {
                 templateUrl: '/public/views/login.html',
-                controller: 'LoginController'
+                controller: 'UserController'
             })
             .when('/products', {
                 templateUrl: '/public/views/list.html',
@@ -52,6 +52,9 @@ angular.module('MarkLogicSampleApp',
             if (routesThatRequireAuth.indexOf($location.path())>=0 && !AuthenticationService.isLoggedIn()) {
                 $location.path('/login');
                 FlashService.show("Please log in to continue.");
+            }
+            if ($location.path().indexOf("/login") >= 0 && AuthenticationService.isLoggedIn()) {
+                $location.path('/products');
             }
         });
     })

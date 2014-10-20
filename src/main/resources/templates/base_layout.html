@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title layout:fragment="title">Web Page Title</title>
+    <title layout:fragment="title">Page Title</title>
     <link rel="stylesheet" href="/public/bower/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/public/bower/angular-toastr/dist/angular-toastr.min.css"/>
     <link rel="stylesheet" href="/public/bower/ng-tags-input/ng-tags-input.min.css"/>
@@ -12,60 +12,30 @@
 </head>
 
 <body ng-app="MarkLogicSampleApp">
-<div class="container">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">MarkLogic SpringBoot Sample</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div ng-if="userLoggedIn" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">All Products</a></li>
-                    <!-- li><a href="#">Link</a></li -->
-                </ul>
-                <form class="navbar-form navbar-right" role="search"><!-- ng-controller="ProductSearchController" -->
-                    <div class="form-group">
-                        <input type="text" ng-model="asyncProductMatches" placeholder="Search Product"
-                               typeahead="productMatch for productMatch in findMatchingProducts($viewValue)"
-                               typeahead-loading="loadingProductMatches" class="form-control"/>
-                        <i ng-show="loadingProductMatches" class="glyphicon glyphicon-refresh"></i>
-                    </div>
-                    <!-- button type="submit" class="btn btn-default">Submit</button -->
-                </form>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
 
-    <div id="flash" class="alert-box alert" ng-show="flash">
-        {{ flash }}
+    <div class="container">
+        <nav layout:fragment="navigation" class="navbar navbar-default" role="navigation">
+            Navigation Bar
+        </nav>
+        <div layout:fragment="content" class="container">
+            Page Content
+        </div>
     </div>
-    <div layout:fragment="content">
-        Web Page Content
-    </div>
-</div>
 
-<!-- Le JavaScript -->
-<script src="/public/bower/angular/angular.min.js"></script>
-<script src="/public/bower/angular-route/angular-route.min.js"></script>
-<script src="/public/bower/angular-resource/angular-resource.min.js"></script>
-<script src="/public/bower/angular-sanitize/angular-sanitize.min.js"></script>
-<script src="/public/bower/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src="/public/bower/angular-toastr/dist/angular-toastr.min.js"></script>
-<script src="/public/bower/ng-tags-input/ng-tags-input.min.js"></script>
-<!-- Sample app -->
-<script src="/public/js/app.js"></script>
-<script src="/public/js/controllers.js"></script>
-<script src="/public/js/services.js"></script>
-<script>
-    angular.module("MarkLogicSampleApp").constant("CSRF_TOKEN", 'TODO');
-</script>
+    <!-- Le JavaScript -->
+    <script src="/public/bower/angular/angular.min.js"></script>
+    <script src="/public/bower/angular-route/angular-route.min.js"></script>
+    <script src="/public/bower/angular-resource/angular-resource.min.js"></script>
+    <script src="/public/bower/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/public/bower/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="/public/bower/angular-toastr/dist/angular-toastr.min.js"></script>
+    <script src="/public/bower/ng-tags-input/ng-tags-input.min.js"></script>
+    <!-- Sample app -->
+    <script src="/public/js/app.js"></script>
+    <script src="/public/js/controllers.js"></script>
+    <script src="/public/js/services.js"></script>
+    <script>
+        angular.module("MarkLogicSampleApp").constant("CSRF_TOKEN", 'TODO');
+    </script>
 </body>
 </html>

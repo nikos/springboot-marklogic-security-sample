@@ -15,24 +15,30 @@ var handleModalDialog = function($scope, $modalInstance, product) {
 
 angular.module('MarkLogicSampleApp.controllers', [])
 
-    .controller("LoginController", function($scope, $log, $location, AuthenticationService) {
+    /* ---------------------------------------------------------------------- */
+    /* Controller for user access control                                     */
+    /* ---------------------------------------------------------------------- */
+
+    .controller("UserController", function($rootScope, $scope, $log, $location, AuthenticationService) {
+        $rootScope.user = "";
         $scope.credentials = {username: "", password: ""};
 
         $scope.login = function() {
             $log.info("Log in", $scope.credentials);
-            AuthenticationService.login($scope.credentials).success(function() {
+            AuthenticationService.login($scope.credentials).success(function(authResponse) {
+                $rootScope.user = authResponse;
+                $log.info("Logged in user", $rootScope.user);
                 $location.path('/products');
             });
         };
+        $scope.logout = function() {
+            AuthenticationService.logout().success(function() {
+                $log.info("Logged out user " + $rootScope.user.name);
+                $rootScope.user = "";
+                $location.path('/login');
+            });
+        };
     })
-
-    /* TODO in which controller to integrate the logout call?
-     $scope.logout = function() {
-        AuthenticationService.logout().success(function() {
-           $location.path('/login');
-        });
-     };
-     */
 
     /* ---------------------------------------------------------------------- */
     /* Controller for Listing Products                                        */

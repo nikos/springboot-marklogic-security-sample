@@ -2,6 +2,10 @@ body {
     padding-top: 20px;
 }
 
+#flash {
+    color: #8b0000;
+}
+
 .navbar-default {
     background: rgba(138, 209, 255, 0.20) linear-gradient(#7db9e8, #1e5799);
     border-color: #e7e7e7;

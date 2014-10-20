@@ -3,7 +3,7 @@ package de.nava.mlsample.service.init;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.nava.mlsample.domain.Product;
 import de.nava.mlsample.domain.Products;
-import de.nava.mlsample.service.ProductRepositoryJSON;
+import de.nava.mlsample.service.ProductJSONRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,12 +24,12 @@ public class BootstrapDataPopulator implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(BootstrapDataPopulator.class);
 
     @Autowired
-    protected ProductRepositoryJSON productRepositoryJSON;
+    protected ProductJSONRepository productJSONRepository;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("~~~ Load bootstrap data");
-        if (productRepositoryJSON.count() == 0) {
+        if (productJSONRepository.count() == 0) {
             importJSONProducts();
         }
     }
@@ -39,7 +39,7 @@ public class BootstrapDataPopulator implements InitializingBean {
         InputStream inputStream = Products.class.getResourceAsStream("/sampledata/products.json");
         Product[] products = mapper.readValue(inputStream, Product[].class);
         for (Product product : products) {
-            productRepositoryJSON.add(product);
+            productJSONRepository.add(product);
         }
         logger.info("Imported {} products to JSON store", products.length);
     }
