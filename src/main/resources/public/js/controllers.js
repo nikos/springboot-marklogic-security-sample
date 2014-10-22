@@ -20,7 +20,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     /* ---------------------------------------------------------------------- */
 
     .controller("UserController", function($rootScope, $scope, $log, $location, AuthenticationService) {
-        $rootScope.user = "";
+        $rootScope.user = ""; // TODO: handle also recoverage from session
         $scope.credentials = {username: "", password: ""};
 
         $scope.login = function() {
