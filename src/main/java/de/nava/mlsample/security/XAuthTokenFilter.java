@@ -28,7 +28,7 @@ public class XAuthTokenFilter extends GenericFilterBean {
 
     private static final Logger logger = LoggerFactory.getLogger(XAuthTokenFilter.class);
 
-    public final static String X_AUTH_TOKEN_HEADERNAME = "x-auth-token";
+    public final static String X_AUTH_TOKEN_HEADER = "x-auth-token";
 
     private final UserDetailsService detailsService;
 
@@ -40,7 +40,7 @@ public class XAuthTokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         try {
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-            String authToken = httpServletRequest.getHeader(X_AUTH_TOKEN_HEADERNAME);
+            String authToken = httpServletRequest.getHeader(X_AUTH_TOKEN_HEADER);
 
             if (StringUtils.hasText(authToken)) {
                 String username = TokenUtils.getUserNameFromToken(authToken);

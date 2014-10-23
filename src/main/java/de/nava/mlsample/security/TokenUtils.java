@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public final class TokenUtils {
 
-    public static final String MAGIC_KEY = "obfuscate";
+    public static final String MAGIC_KEY = "obfuscate"; // TODO: retrieve as configuration variable
     public static final long EXPIRES_IN_MS = 60 * 60 * 1000L;
 
     public static String createToken(UserDetails userDetails) {

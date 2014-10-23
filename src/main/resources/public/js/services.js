@@ -35,6 +35,18 @@ angular.module('MarkLogicSampleApp.services', [])
         };
 
         return {
+            authenticate: function(credentials) {
+                var login = $http.post("/auth/authenticate", sanitizeCredentials(credentials));
+                login.success(function() {
+                    SessionService.set('authenticated', true);
+                    FlashService.clear();
+                });
+                login.error(function(response) {
+                    $log.info("Unable to login user", response);
+                    FlashService.show(response.flash);
+                });
+                return login;
+            },
             login: function(credentials) {
                 var login = $http.post("/auth/login", sanitizeCredentials(credentials));
                 login.success(function() {

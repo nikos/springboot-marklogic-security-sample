@@ -19,18 +19,26 @@ angular.module('MarkLogicSampleApp.controllers', [])
     /* Controller for user access control                                     */
     /* ---------------------------------------------------------------------- */
 
-    .controller("UserController", function($rootScope, $scope, $log, $location, AuthenticationService) {
-        $rootScope.user = ""; // TODO: handle also recoverage from session
+    .controller("UserController", function($rootScope, $scope, $http, $window, $log, $location, AuthenticationService) {
         $scope.credentials = {username: "", password: ""};
 
         $scope.login = function() {
             $log.info("Log in", $scope.credentials);
+            AuthenticationService.authenticate($scope.credentials).success(function(user) {
+                $rootScope.username = user.name;
+                $http.defaults.headers.common[XAUTH_TOKEN_HEADER] = user.token;
+                $window.sessionStorage.usertoken = user.token;
+                $location.path("/");
+            });
+            /*
             AuthenticationService.login($scope.credentials).success(function(authResponse) {
                 $rootScope.user = authResponse;
                 $log.info("Logged in user", $rootScope.user);
                 $location.path('/products');
             });
+            */
         };
+        /*
         $scope.logout = function() {
             AuthenticationService.logout().success(function() {
                 $log.info("Logged out user " + $rootScope.user.name);
@@ -38,6 +46,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
                 $location.path('/login');
             });
         };
+        */
     })
 
     /* ---------------------------------------------------------------------- */

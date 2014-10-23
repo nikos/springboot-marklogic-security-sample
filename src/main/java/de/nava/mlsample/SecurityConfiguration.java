@@ -34,8 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // ~~
         http
             .csrf()
-                .csrfTokenRepository(tokenRepository)
-                // .disable()  // for testing purposes
+                //.csrfTokenRepository(tokenRepository)
+                .disable().csrf()  // for testing purposes
         .and()
             .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
@@ -102,7 +102,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public/**")   // all assets
         .and()
             .ignoring()
-                .antMatchers("/auth/login")  // login REST end-point
+                .antMatchers("/auth/authenticate")  // login REST end-point
         .and()
             .ignoring()
                 .antMatchers("/")   // the index page serves as root for the AngularJS app

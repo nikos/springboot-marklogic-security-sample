@@ -17,12 +17,12 @@
                 </button>
                 <a class="navbar-brand" href="#">MarkLogic SpringBoot Sample</a>
             </div>
-            <div ng-show="user">
+            <div ng-show="username">
                 <!--/* Collect the nav links, forms, and other content for toggling */-->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">{{user.name}}</a></li>
-                        <li ng-controller="UserController" ng-click="logout()"><a href="#">Logout</a></li>
+                        <li><a href="#">{{username}}</a></li>
+                        <li ng-click="logout()"><a href="#">Logout</a></li>
                         <li class="active"><a href="/#/products">All Products</a></li>
                     </ul>
                     <form class="navbar-form navbar-right" role="search"><!--/* ng-controller="ProductSearchController" */-->

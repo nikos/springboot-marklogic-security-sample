@@ -59,14 +59,15 @@ public class AuthenticationController {
     }
 
 
-    @RequestMapping(value = "/authenticate", method = { RequestMethod.POST })
-    public UserTransfer authenticate(@RequestParam String username, @RequestParam String password) {
+    @RequestMapping(value = "/auth/authenticate", method = { RequestMethod.POST })
+    public UserTransfer authenticate(@RequestBody @Valid LoginCredential login) {
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.getUsername(),
+                login.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails details = this.userDetailsService.loadUserByUsername(username);
+        UserDetails details = this.userDetailsService.loadUserByUsername(login.getUsername());
 
         Map<String, Boolean> roles = new HashMap<String, Boolean>();
         for (GrantedAuthority authority : details.getAuthorities()) {
