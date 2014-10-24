@@ -19,7 +19,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     /* Controller for user access control                                     */
     /* ---------------------------------------------------------------------- */
 
-    .controller("UserController", function($rootScope, $scope, $http, $window, $log, $location, AuthenticationService) {
+    .controller("AppController", function($rootScope, $scope, $http, $window, $log, $location, AuthenticationService) {
         $scope.credentials = {username: "", password: ""};
 
         $scope.login = function() {
@@ -28,7 +28,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
                 $rootScope.username = user.name;
                 $http.defaults.headers.common[XAUTH_TOKEN_HEADER] = user.token;
                 $window.sessionStorage.usertoken = user.token;
-                $location.path("/");
+                $location.path("/products");
             });
             /*
             AuthenticationService.login($scope.credentials).success(function(authResponse) {
@@ -38,6 +38,16 @@ angular.module('MarkLogicSampleApp.controllers', [])
             });
             */
         };
+
+        $scope.logout = function() {
+            $log.info("Logging out user " + $rootScope.username);
+            delete $rootScope.username;
+            delete $http.defaults.headers.common[XAUTH_TOKEN_HEADER];
+            delete $window.sessionStorage.usertoken;
+            $log.info("Forward to login...");
+            $location.path("/login");
+        };
+
         /*
         $scope.logout = function() {
             AuthenticationService.logout().success(function() {
@@ -94,7 +104,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
                 angular.forEach(result.products, function (item) {
                     products.push(item.name);
                 });
-                $log.info(" findMatchingProducts returned: ", products);
+                $log.info("findMatchingProducts returned: ", products);
                 return products;
             });
         };
