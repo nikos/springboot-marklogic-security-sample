@@ -45,7 +45,8 @@ angular.module('MarkLogicSampleApp.controllers', [])
             delete $http.defaults.headers.common[XAUTH_TOKEN_HEADER];
             delete $window.sessionStorage.usertoken;
             $log.info("Forward to login...");
-            $location.path("/login");
+            //$location.path("/login");
+            $window.location.href = "/";
         };
 
         /*

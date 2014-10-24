@@ -77,7 +77,7 @@ angular.module('MarkLogicSampleApp',
     /* ---------------------------------------------------------------------- */
     /* Intercept unauthenticated routes on request time                       */
     /* ---------------------------------------------------------------------- */
-    .run(function($rootScope, $location, $http, $window, $log) {
+    .run(function($rootScope, $location, $http, $window, $q, $log) {
 
         /* Reset error when a new view is loaded */
         $rootScope.$on('$viewContentLoaded', function() {
@@ -110,14 +110,21 @@ angular.module('MarkLogicSampleApp',
 
         /* var routesThatRequireAuth = ['/products']; */
 
+        $rootScope.$on('$locationChangeSuccess', function(next, current) {
+            $log.info("on $locationChangeSuccess, path:" + $location.path(), current);
+            //var deferred = $q.defer();
+            //deferred.resolve();
+        });
+
         $rootScope.$on('$routeChangeStart', function(event, next, current) {
             $log.info("on routeChangeStart, path:" + $location.path(), current);
-            if ($location.path() === '') {
+
+            /*if ($location.path() === '') {
                 $log.info("Ensure login page");
                 $location.path('/login');  // TODO: Work-around for strange redirect behaviour after logout ('/login' -> '' -> '/products')
                 event.preventDefault();
                 // HOWTO prevent further chaining preventdefault?
-            }
+            }*/
             /*if (routesThatRequireAuth.indexOf($location.path())>=0 && !AuthenticationService.isLoggedIn()) {
                 $location.path('/login');
                 FlashService.show("Please log in to continue.");
