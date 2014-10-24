@@ -56,28 +56,10 @@ angular.module('MarkLogicSampleApp.services', [])
     .factory("FlashService", function($rootScope, $log) {
         return {
             show: function(message) {
-                $log.info("Set flash message: " + message);
                 $rootScope.flash = message;
             },
             clear: function() {
                 $rootScope.flash = "";
-            }
-        }
-    })
-
-    /* ---------------------------------------------------------------------- */
-    /* Store key-value pair in the Browsers session store (per tab)           */
-    /* ---------------------------------------------------------------------- */
-    .factory("SessionService", function() {
-        return {
-            get: function(key) {
-                return sessionStorage.getItem(key);
-            },
-            set: function(key, val) {
-                return sessionStorage.setItem(key, val);
-            },
-            unset: function(key) {
-                return sessionStorage.removeItem(key);
             }
         }
     })

@@ -16,9 +16,8 @@ var handleModalDialog = function($scope, $modalInstance, product) {
 angular.module('MarkLogicSampleApp.controllers', [])
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for user access control                                     */
+    /* Controller for application-wide control                                */
     /* ---------------------------------------------------------------------- */
-
     .controller("AppController", function($rootScope, $scope, $http, $window, $log, $location, AuthenticationService) {
         $scope.credentials = {username: "", password: ""};
 
@@ -30,13 +29,6 @@ angular.module('MarkLogicSampleApp.controllers', [])
                 $window.sessionStorage.usertoken = user.token;
                 $location.path("/products");
             });
-            /*
-            AuthenticationService.login($scope.credentials).success(function(authResponse) {
-                $rootScope.user = authResponse;
-                $log.info("Logged in user", $rootScope.user);
-                $location.path('/products');
-            });
-            */
         };
 
         $scope.logout = function() {
@@ -45,23 +37,13 @@ angular.module('MarkLogicSampleApp.controllers', [])
             delete $http.defaults.headers.common[XAUTH_TOKEN_HEADER];
             delete $window.sessionStorage.usertoken;
             $log.info("Forward to login...");
-            //$location.path("/login");
+            // $location.path('/login'); // TODO: Unfortunately this is not working, but sticks with same page
             $window.location.href = "/";
         };
-
-        /*
-        $scope.logout = function() {
-            AuthenticationService.logout().success(function() {
-                $log.info("Logged out user " + $rootScope.user.name);
-                $rootScope.user = "";
-                $location.path('/login');
-            });
-        };
-        */
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Listing Products                                        */
+    /* Controller for listing products                                        */
     /* ---------------------------------------------------------------------- */
     .controller('ProductListController', function($scope, $modal, $log, MarkLogicService, toastr) {
         $scope.searchresult = MarkLogicService.getProducts();
@@ -95,7 +77,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Searching Products                                      */
+    /* Controller for searching products                                      */
     /* ---------------------------------------------------------------------- */
     .controller('ProductSearchController', function($scope, $http, $log, MarkLogicService) {
         /* Method called by typeahead function */
@@ -112,7 +94,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Showing a single product                                */
+    /* Controller for showing a single product                                */
     /* ---------------------------------------------------------------------- */
     .controller('ProductDetailController', function($scope, $routeParams, $location, MarkLogicService) {
         var sku = $routeParams.sku;
@@ -120,7 +102,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Creating a single product                               */
+    /* Controller for creating a single product                               */
     /* ---------------------------------------------------------------------- */
     .controller('ProductCreateController', function($scope, $location, MarkLogicService, toastr) {
         $scope.save = function () {
