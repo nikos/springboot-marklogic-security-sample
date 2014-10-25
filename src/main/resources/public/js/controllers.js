@@ -16,32 +16,34 @@ var handleModalDialog = function($scope, $modalInstance, product) {
 angular.module('MarkLogicSampleApp.controllers', [])
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for user access control                                     */
+    /* Controller for application-wide control                                */
     /* ---------------------------------------------------------------------- */
-
-    .controller("UserController", function($rootScope, $scope, $log, $location, AuthenticationService) {
-        $rootScope.user = "";
+    .controller("AppController", function($rootScope, $scope, $http, $window, $log, $location, AuthenticationService) {
         $scope.credentials = {username: "", password: ""};
 
         $scope.login = function() {
             $log.info("Log in", $scope.credentials);
-            AuthenticationService.login($scope.credentials).success(function(authResponse) {
-                $rootScope.user = authResponse;
-                $log.info("Logged in user", $rootScope.user);
-                $location.path('/products');
+            AuthenticationService.authenticate($scope.credentials).success(function(user) {
+                $rootScope.username = user.name;
+                $http.defaults.headers.common[XAUTH_TOKEN_HEADER] = user.token;
+                $window.sessionStorage.usertoken = user.token;
+                $location.path("/products");
             });
         };
+
         $scope.logout = function() {
-            AuthenticationService.logout().success(function() {
-                $log.info("Logged out user " + $rootScope.user.name);
-                $rootScope.user = "";
-                $location.path('/login');
-            });
+            $log.info("Logging out user " + $rootScope.username);
+            delete $rootScope.username;
+            delete $http.defaults.headers.common[XAUTH_TOKEN_HEADER];
+            delete $window.sessionStorage.usertoken;
+            $log.info("Forward to login...");
+            // $location.path('/login'); // TODO: Unfortunately this is not working, but sticks with same page
+            $window.location.href = "/";
         };
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Listing Products                                        */
+    /* Controller for listing products                                        */
     /* ---------------------------------------------------------------------- */
     .controller('ProductListController', function($scope, $modal, $log, MarkLogicService, toastr) {
         $scope.searchresult = MarkLogicService.getProducts();
@@ -75,7 +77,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Searching Products                                      */
+    /* Controller for searching products                                      */
     /* ---------------------------------------------------------------------- */
     .controller('ProductSearchController', function($scope, $http, $log, MarkLogicService) {
         /* Method called by typeahead function */
@@ -85,14 +87,14 @@ angular.module('MarkLogicSampleApp.controllers', [])
                 angular.forEach(result.products, function (item) {
                     products.push(item.name);
                 });
-                $log.info(" findMatchingProducts returned: ", products);
+                $log.info("findMatchingProducts returned: ", products);
                 return products;
             });
         };
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Showing a single product                                */
+    /* Controller for showing a single product                                */
     /* ---------------------------------------------------------------------- */
     .controller('ProductDetailController', function($scope, $routeParams, $location, MarkLogicService) {
         var sku = $routeParams.sku;
@@ -100,7 +102,7 @@ angular.module('MarkLogicSampleApp.controllers', [])
     })
 
     /* ---------------------------------------------------------------------- */
-    /* Controller for Creating a single product                               */
+    /* Controller for creating a single product                               */
     /* ---------------------------------------------------------------------- */
     .controller('ProductCreateController', function($scope, $location, MarkLogicService, toastr) {
         $scope.save = function () {

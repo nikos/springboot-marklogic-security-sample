@@ -24,7 +24,7 @@ angular.module('MarkLogicSampleApp.services', [])
     /* ---------------------------------------------------------------------- */
     /* Authenticate user on login                                             */
     /* ---------------------------------------------------------------------- */
-    .factory("AuthenticationService", function($http, $sanitize, $log, SessionService, FlashService, CSRF_TOKEN) {
+    .factory("AuthenticationService", function($http, $sanitize, $log, FlashService, CSRF_TOKEN) {
 
         var sanitizeCredentials = function(credentials) {
             return {
@@ -35,27 +35,17 @@ angular.module('MarkLogicSampleApp.services', [])
         };
 
         return {
-            login: function(credentials) {
-                var login = $http.post("/auth/login", sanitizeCredentials(credentials));
-                login.success(function() {
-                    SessionService.set('authenticated', true);
+            authenticate: function(credentials) {
+                var auth = $http.post("/auth/authenticate", sanitizeCredentials(credentials));
+                auth.success(function() {
+                    $log.info("Successfully authenticated user: " + credentials.username);
                     FlashService.clear();
                 });
-                login.error(function(response) {
-                    $log.info("Unable to login user", response);
-                    FlashService.show(response.flash);
+                auth.error(function(response) {
+                    $log.info("Unable to authenticate user: " + credentials.username, response);
+                    FlashService.show("Wrong username or password provided");
                 });
-                return login;
-            },
-            logout: function() {
-                var logout = $http.get("/auth/logout");
-                logout.success(function() {
-                    SessionService.set('authenticated', true);
-                });
-                return logout;
-            },
-            isLoggedIn: function() {
-                return SessionService.get('authenticated');
+                return auth;
             }
         };
     })
@@ -63,30 +53,13 @@ angular.module('MarkLogicSampleApp.services', [])
     /* ---------------------------------------------------------------------- */
     /* Hold message string to easily communicate highlight to the user        */
     /* ---------------------------------------------------------------------- */
-    .factory("FlashService", function($rootScope) {
+    .factory("FlashService", function($rootScope, $log) {
         return {
             show: function(message) {
                 $rootScope.flash = message;
             },
             clear: function() {
                 $rootScope.flash = "";
-            }
-        }
-    })
-
-    /* ---------------------------------------------------------------------- */
-    /* Store key-value pair in the Browsers session store (per tab)           */
-    /* ---------------------------------------------------------------------- */
-    .factory("SessionService", function() {
-        return {
-            get: function(key) {
-                return sessionStorage.getItem(key);
-            },
-            set: function(key, val) {
-                return sessionStorage.setItem(key, val);
-            },
-            unset: function(key) {
-                return sessionStorage.removeItem(key);
             }
         }
     })

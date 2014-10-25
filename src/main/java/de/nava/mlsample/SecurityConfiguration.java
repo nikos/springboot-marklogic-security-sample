@@ -1,14 +1,19 @@
 package de.nava.mlsample;
 
+import de.nava.mlsample.security.XAuthTokenConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
@@ -29,14 +34,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // ~~
         http
             .csrf()
-                .csrfTokenRepository(tokenRepository)
-                // .disable()  // for testing purposes
+                //.csrfTokenRepository(tokenRepository)
+                .disable().csrf()  // for testing purposes
         .and()
             .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
         .and()
             .authorizeRequests()
                 .antMatchers("/**").hasRole("USER");
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // injects filter to read out x-auth-token header and validates it
+        SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity> securityConfigurerAdapter = new XAuthTokenConfigurer(userDetailsServiceBean());
+        http.apply(securityConfigurerAdapter);
 
         // Since we use the client-side AngularJS login view, we do not have to cover redirection
         /*
@@ -75,6 +86,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    @Override
+    public UserDetailsService userDetailsServiceBean() throws Exception {
+        return super.userDetailsServiceBean();
+    }
+
     /**
      * Which routes should be ignored on dealing with authentication at all.
      */
@@ -85,7 +102,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public/**")   // all assets
         .and()
             .ignoring()
-                .antMatchers("/auth/login")  // login REST end-point
+                .antMatchers("/auth/authenticate")  // login REST end-point
         .and()
             .ignoring()
                 .antMatchers("/")   // the index page serves as root for the AngularJS app
