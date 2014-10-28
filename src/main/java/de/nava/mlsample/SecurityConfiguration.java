@@ -102,7 +102,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public/**")   // all assets
         .and()
             .ignoring()
-                .antMatchers("/auth/authenticate")  // login REST end-point
+                .antMatchers("/auth/authenticate")   // REST end-point for token creation
         .and()
             .ignoring()
                 .antMatchers("/")   // the index page serves as root for the AngularJS app
