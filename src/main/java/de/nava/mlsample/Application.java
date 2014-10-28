@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * The entrance point to the sample application, starts Spring Boot
- * and initialized context plus configurations.
+ * and initialize context plus configurations.
  */
 @Configuration
 @EnableAutoConfiguration

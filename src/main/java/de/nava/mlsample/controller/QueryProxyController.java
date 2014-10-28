@@ -27,7 +27,7 @@ public class QueryProxyController {
     protected String markLogicBaseURL;
 
     @RequestMapping(
-            value = "/search",
+            value = "/proxy/search",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> query() {
@@ -44,7 +44,7 @@ public class QueryProxyController {
                 .queryParams(queryParams)
                 .type("application/json")
                 .post(ClientResponse.class, payload);
-        return new ResponseEntity<String>(response.getEntity(String.class), HttpStatus.valueOf(response.getStatus()));
+        return new ResponseEntity<>(response.getEntity(String.class), HttpStatus.valueOf(response.getStatus()));
     }
 
 }
